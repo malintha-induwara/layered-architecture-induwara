@@ -73,5 +73,16 @@ public class CustomerDAOImpl {
             return "C00-001";
         }
     }
+
+    public CustomerDTO searchCustomer(String s) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getDbConnection().getConnection();
+        PreparedStatement pstm = connection.prepareStatement("SELECT * FROM Customer WHERE id=?");
+        pstm.setString(1, s);
+        ResultSet rst = pstm.executeQuery();
+        rst.next();
+        return new CustomerDTO(rst.getString(1),
+                rst.getString(2),
+                rst.getString(3));
+    }
 }
 
