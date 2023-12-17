@@ -56,7 +56,6 @@ public class PlaceOrderFormController {
     OrderDAO orderDAO=new OrderDAOImpl();
     CustomerDAO customerDAO = new CustomerDAOImpl();
     ItemDAO itemDAO = new ItemDAOImpl();
-
     PaceOrderDAO orderDetailDAO = new PlaceOrderDAOImpl();
 
     public void initialize() throws SQLException, ClassNotFoundException {
