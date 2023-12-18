@@ -153,7 +153,6 @@ public class ManageCustomersFormController {
 
                 if (isSaved) {
                     tblCustomers.getItems().add(new CustomerTM(id, name, address));
-                    new Alert(Alert.AlertType.CONFIRMATION,"Wade Hari").show();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to save the customer " + e.getMessage()).show();
@@ -168,9 +167,6 @@ public class ManageCustomersFormController {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
                 boolean isUpdated = customerDAO.updateCustomer(new CustomerDTO(id,name,address));
-                if (isUpdated){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Wade Hari").show();
-                }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -203,7 +199,6 @@ public class ManageCustomersFormController {
 
             boolean isDeleted = customerDAO.deleteCustomer(id);
             if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION,"Wade hari").show();
                 tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
                 tblCustomers.getSelectionModel().clearSelection();
                 initUI();

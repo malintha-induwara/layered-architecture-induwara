@@ -313,7 +313,7 @@ public class PlaceOrderFormController {
             boolean isOrderExists = orderDAO.getOrderDetail(orderId);
             /*if order id already exist*/
             if (isOrderExists) {
-
+                return false;
             }
 
             connection.setAutoCommit(false);
