@@ -7,21 +7,18 @@ import java.sql.SQLException;
 
 public class TransactionUtil {
 
-    Connection connection = DBConnection.getDbConnection().getConnection();
+    public static Connection connection;
 
-    public TransactionUtil() throws SQLException, ClassNotFoundException {
-    }
-
-    public void autoCommitFalse() throws SQLException {
+    public static void autoCommitFalse() throws SQLException {
         connection.setAutoCommit(false);
     }
 
-    public void commit() throws SQLException {
+    public static void commit() throws SQLException {
         connection.commit();
         connection.setAutoCommit(true);
     }
 
-    public void rollback() throws SQLException {
+    public static void rollback() throws SQLException {
         connection.rollback();
         connection.setAutoCommit(true);
     }

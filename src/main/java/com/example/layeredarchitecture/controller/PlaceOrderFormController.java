@@ -101,22 +101,20 @@ public class PlaceOrderFormController {
             enableOrDisablePlaceOrderButton();
 
             if (newValue != null) {
+                /*Search Customer*/
                 try {
-                    /*Search Customer*/
-                    try {
-                        if (!customerDAO.existCustomer(newValue + "")) {
+                    if (!customerDAO.existCustomer(newValue + "")) {
 //                            "There is no such customer associated with the id " + id
-                            new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
-                        }
-
-                        CustomerDTO customerDTO = customerDAO.searchCustomer(newValue+"");
-
-                        txtCustomerName.setText(customerDTO.getName());
-                    } catch (SQLException e) {
-                        new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
+                        new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                     }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+
+                    CustomerDTO customerDTO = customerDAO.searchCustomer(newValue+"");
+
+                    txtCustomerName.setText(customerDTO.getName());
+                } catch (SQLException e) {
+                    new Alert(Alert.AlertType.ERROR, "Failed to find the customer " + newValue + "" + e).show();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             } else {
                 txtCustomerName.clear();
@@ -149,6 +147,8 @@ public class PlaceOrderFormController {
                     throwables.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
 
             } else {
@@ -204,6 +204,8 @@ public class PlaceOrderFormController {
             new Alert(Alert.AlertType.ERROR, "Failed to load customer ids").show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -219,6 +221,8 @@ public class PlaceOrderFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -310,19 +314,20 @@ public class PlaceOrderFormController {
     private boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         try {
-            TransactionUtil transUtil = new TransactionUtil();
             boolean isOrderExists = orderDAO.getOrderDetail(orderId);
             /*if order id already exist*/
             if (isOrderExists) {
                 return false;
             }
 
-            transUtil.autoCommitFalse();
+            TransactionUtil.connection=DBConnection.getDbConnection().getConnection();
+
+            TransactionUtil.autoCommitFalse();
 
             boolean isOrderSaved = orderDAO.saveOrder(new OrderDTO(orderId, orderDate, customerId, null, null));
 
             if (!isOrderSaved) {
-                transUtil.commit();
+                TransactionUtil.commit();
                 return false;
             }
 
@@ -330,7 +335,7 @@ public class PlaceOrderFormController {
                 boolean isOrderDetailSaved = orderDetailDAO.saveOrderDetail(detail);
 
                 if (!isOrderDetailSaved) {
-                  transUtil.rollback();
+                  TransactionUtil.rollback();
                     return false;
                 }
 
@@ -341,18 +346,20 @@ public class PlaceOrderFormController {
                 boolean isUpdated = itemDAO.updateItems(item);
 
                 if (!isUpdated) {
-                   transUtil.rollback();
+                   TransactionUtil.rollback();
                     return false;
                 }
             }
 
-            transUtil.rollback();
+            TransactionUtil.rollback();
             return true;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return false;
 
@@ -366,6 +373,8 @@ public class PlaceOrderFormController {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
