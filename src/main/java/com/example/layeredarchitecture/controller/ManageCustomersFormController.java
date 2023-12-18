@@ -72,7 +72,7 @@ public class ManageCustomersFormController {
         tblCustomers.getItems().clear();
         /*Get all customers*/
         try {
-            ArrayList<CustomerDTO> dtoList=customerDAO.getAllCustomers();
+            ArrayList<CustomerDTO> dtoList=customerDAO.getAll();
 
             for (CustomerDTO dto:dtoList){
                 tblCustomers.getItems().add(new CustomerTM(
@@ -149,7 +149,7 @@ public class ManageCustomersFormController {
                 if (existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, id + " already exists").show();
                 }
-                boolean isSaved =customerDAO.saveCustomer(new CustomerDTO(id, name, address));
+                boolean isSaved =customerDAO.save(new CustomerDTO(id, name, address));
 
                 if (isSaved) {
                     tblCustomers.getItems().add(new CustomerTM(id, name, address));
@@ -166,7 +166,7 @@ public class ManageCustomersFormController {
                 if (!existCustomer(id)) {
                     new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
                 }
-                boolean isUpdated = customerDAO.updateCustomer(new CustomerDTO(id,name,address));
+                boolean isUpdated = customerDAO.update(new CustomerDTO(id,name,address));
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer " + id + e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -185,7 +185,7 @@ public class ManageCustomersFormController {
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
        CustomerDAOImpl dao = new CustomerDAOImpl();
-       return dao.existCustomer(id);
+       return dao.exist(id);
     }
 
 
@@ -197,7 +197,7 @@ public class ManageCustomersFormController {
                 new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + id).show();
             }
 
-            boolean isDeleted = customerDAO.deleteCustomer(id);
+            boolean isDeleted = customerDAO.delete(id);
             if (isDeleted){
                 tblCustomers.getItems().remove(tblCustomers.getSelectionModel().getSelectedItem());
                 tblCustomers.getSelectionModel().clearSelection();
@@ -213,7 +213,7 @@ public class ManageCustomersFormController {
 
     private String generateNewId() {
         try {
-          return customerDAO.getLastCustomerId();
+          return customerDAO.generateId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new id " + e.getMessage()).show();
         } catch (ClassNotFoundException e) {
