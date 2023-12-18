@@ -183,7 +183,7 @@ public class PlaceOrderFormController {
 
     public String generateNewOrderId() {
         try {
-           return orderDAO.generateNextOrderId();
+           return orderDAO.generateId();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Failed to generate a new order id").show();
         } catch (ClassNotFoundException e) {
@@ -311,7 +311,7 @@ public class PlaceOrderFormController {
         /*Transaction*/
         try {
             TransactionUtil transUtil = new TransactionUtil();
-            boolean isOrderExists = orderDAO.getOrderDetail(orderId);
+            boolean isOrderExists = orderDAO.exist(orderId);
             /*if order id already exist*/
             if (isOrderExists) {
                 return false;
@@ -319,7 +319,7 @@ public class PlaceOrderFormController {
 
             transUtil.autoCommitFalse();
 
-            boolean isOrderSaved = orderDAO.saveOrder(new OrderDTO(orderId, orderDate, customerId, null, null));
+            boolean isOrderSaved = orderDAO.save(new OrderDTO(orderId, orderDate, customerId, null, null));
 
             if (!isOrderSaved) {
                 transUtil.commit();
