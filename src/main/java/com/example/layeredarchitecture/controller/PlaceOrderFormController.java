@@ -338,8 +338,10 @@ public class PlaceOrderFormController {
 
                 // Search & Update Item
                 ItemDTO item = findItem(detail.getItemCode());
-                item.setQtyOnHand(detail.getQty());
 
+// Subtract the quantity in the order details from the existing quantity on hand
+                int updatedQtyOnHand = item.getQtyOnHand() - detail.getQty();
+                item.setQtyOnHand(updatedQtyOnHand);
 
                 System.out.println(item.getQtyOnHand());
                 System.out.println(item.getUnitPrice());

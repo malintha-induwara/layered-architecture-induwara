@@ -20,10 +20,10 @@ public class ItemDAOImpl implements ItemDAO {
         ArrayList<ItemDTO> dtoList = new ArrayList<>();
         while (rst.next()) {
             dtoList.add(new ItemDTO(
-                    rst.getString(1),
-                    rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getInt(4)
+                    rst.getString("code"),
+                    rst.getString("description"),
+                    rst.getBigDecimal("unitPrice"),
+                    rst.getInt("qtyOnHand")
             ));
         }
         return dtoList;
@@ -36,7 +36,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean save(ItemDTO dto) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)", dto.getCode(), dto.getDescription(), dto.getUnitPrice(), dto.getQtyOnHand());
+        return SQLUtil.executeUpdate("INSERT INTO Item (code, description,qtyOnHand,unitPrice) VALUES (?,?,?,?)", dto.getCode(),dto.getDescription(),dto.getQtyOnHand(),dto.getUnitPrice());
     }
 
     @Override
