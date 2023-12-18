@@ -310,19 +310,19 @@ public class PlaceOrderFormController {
     private boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         try {
-            TransactionUtil transUtil = new TransactionUtil();
             boolean isOrderExists = orderDAO.exist(orderId);
-            /*if order id already exist*/
+
+            /*if order id already exists*/
             if (isOrderExists) {
                 return false;
             }
 
-            transUtil.autoCommitFalse();
+            TransactionUtil.autoCommitFalse();
 
             boolean isOrderSaved = orderDAO.save(new OrderDTO(orderId, orderDate, customerId, null, null));
 
             if (!isOrderSaved) {
-                transUtil.commit();
+                TransactionUtil.rollback();
                 return false;
             }
 
@@ -330,27 +330,31 @@ public class PlaceOrderFormController {
                 boolean isOrderDetailSaved = orderDetailDAO.saveOrderDetail(detail);
 
                 if (!isOrderDetailSaved) {
-                  transUtil.rollback();
+                    TransactionUtil.rollback();
                     return false;
                 }
 
-//                //Search & Update Item
+                // Search & Update Item
                 ItemDTO item = findItem(detail.getItemCode());
-                item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
+                item.setQtyOnHand(detail.getQty());
+
+
+                System.out.println(item.getQtyOnHand());
+                System.out.println(item.getUnitPrice());
 
                 boolean isUpdated = itemDAO.update(item);
 
                 if (!isUpdated) {
-                   transUtil.rollback();
+                    TransactionUtil.rollback();
                     return false;
                 }
             }
 
-            transUtil.rollback();
+            TransactionUtil.commit();
             return true;
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
