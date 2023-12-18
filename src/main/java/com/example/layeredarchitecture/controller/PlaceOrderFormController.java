@@ -141,6 +141,7 @@ public class PlaceOrderFormController {
                     ItemDTO item = findItem(newItemCode+"");
 
                     txtDescription.setText(item.getDescription());
+
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
 
 //                    txtQtyOnHand.setText(tblOrderDetails.getItems().stream().filter(detail-> detail.getCode().equals(item.getCode())).<Integer>map(detail-> item.getQtyOnHand() - detail.getQty()).findFirst().orElse(item.getQtyOnHand()) + "");
@@ -339,12 +340,14 @@ public class PlaceOrderFormController {
                 // Search & Update Item
                 ItemDTO item = findItem(detail.getItemCode());
 
+
+
+
 // Subtract the quantity in the order details from the existing quantity on hand
                 int updatedQtyOnHand = item.getQtyOnHand() - detail.getQty();
                 item.setQtyOnHand(updatedQtyOnHand);
 
-                System.out.println(item.getQtyOnHand());
-                System.out.println(item.getUnitPrice());
+
 
                 boolean isUpdated = itemDAO.update(item);
 
