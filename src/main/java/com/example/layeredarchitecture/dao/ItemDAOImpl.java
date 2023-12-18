@@ -51,7 +51,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     public String getLastItemId() throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeUpdate("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
+        ResultSet rst = SQLUtil.executeUpdate("SELECT code FROM Item ORDER BY code DESC LIMIT 1");
         if (rst.next()) {
             String id = rst.getString("code");
             int newItemId = Integer.parseInt(id.replace("I00-", "")) + 1;
@@ -63,9 +63,7 @@ public class ItemDAOImpl implements ItemDAO{
 
     @Override
     public ItemDTO searchItem(String s) throws SQLException, ClassNotFoundException {
-        PreparedStatement pstm = SQLUtil.executeUpdate("SELECT * FROM Item WHERE code=?");
-        pstm.setString(1, s);
-        ResultSet rst = pstm.executeQuery();
+        ResultSet rst = SQLUtil.executeUpdate("SELECT * FROM Item WHERE code=?",s);
         rst.next();
         return new ItemDTO(rst.getString(1),rst.getString(2),rst.getBigDecimal(3),rst.getInt(4));
     }

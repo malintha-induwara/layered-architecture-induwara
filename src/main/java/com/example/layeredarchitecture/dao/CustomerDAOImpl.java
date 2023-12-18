@@ -51,7 +51,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public String getLastCustomerId() throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.executeUpdate("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
+        ResultSet rst = SQLUtil.executeUpdate("SELECT id FROM Customer ORDER BY id DESC LIMIT 1");
         if (rst.next()) {
             String id = rst.getString("id");
             int newCustomerId = Integer.parseInt(id.replace("C00-", "")) + 1;
@@ -63,9 +63,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public CustomerDTO searchCustomer(String s) throws SQLException, ClassNotFoundException {
-        PreparedStatement pstm = SQLUtil.executeUpdate("SELECT * FROM Customer WHERE id=?");
-        pstm.setString(1, s);
-        ResultSet rst = pstm.executeQuery();
+        ResultSet rst= SQLUtil.executeUpdate("SELECT * FROM Customer WHERE id=?",s);
         rst.next();
         return new CustomerDTO(rst.getString(1),
                 rst.getString(2),
