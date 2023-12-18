@@ -4,6 +4,7 @@ import com.example.layeredarchitecture.dao.ItemDAO;
 import com.example.layeredarchitecture.dao.ItemDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.ItemDTO;
+import com.example.layeredarchitecture.util.TransactionUtil;
 import com.example.layeredarchitecture.view.tdm.ItemTM;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
@@ -40,6 +41,8 @@ public class ManageItemsFormController {
 
 
     ItemDAO itemDAO = new ItemDAOImpl();
+
+
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));

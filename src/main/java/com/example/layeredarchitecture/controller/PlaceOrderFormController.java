@@ -6,6 +6,7 @@ import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.util.TransactionUtil;
 import com.example.layeredarchitecture.view.tdm.ItemTM;
 import com.example.layeredarchitecture.view.tdm.OrderDetailTM;
 import com.jfoenix.controls.JFXButton;
@@ -309,20 +310,19 @@ public class PlaceOrderFormController {
     private boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
         /*Transaction*/
         try {
-           Connection connection=DBConnection.getDbConnection().getConnection();
+            TransactionUtil transUtil = new TransactionUtil();
             boolean isOrderExists = orderDAO.getOrderDetail(orderId);
             /*if order id already exist*/
             if (isOrderExists) {
                 return false;
             }
 
-            connection.setAutoCommit(false);
+            transUtil.autoCommitFalse();
 
             boolean isOrderSaved = orderDAO.saveOrder(new OrderDTO(orderId, orderDate, customerId, null, null));
 
             if (!isOrderSaved) {
-                connection.rollback();
-                connection.setAutoCommit(true);
+                transUtil.commit();
                 return false;
             }
 
@@ -330,8 +330,7 @@ public class PlaceOrderFormController {
                 boolean isOrderDetailSaved = orderDetailDAO.saveOrderDetail(detail);
 
                 if (!isOrderDetailSaved) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
+                  transUtil.rollback();
                     return false;
                 }
 
@@ -342,14 +341,12 @@ public class PlaceOrderFormController {
                 boolean isUpdated = itemDAO.updateItems(item);
 
                 if (!isUpdated) {
-                    connection.rollback();
-                    connection.setAutoCommit(true);
+                   transUtil.rollback();
                     return false;
                 }
             }
 
-            connection.commit();
-            connection.setAutoCommit(true);
+            transUtil.rollback();
             return true;
 
         } catch (SQLException throwables) {

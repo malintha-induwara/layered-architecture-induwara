@@ -1,11 +1,12 @@
 package com.example.layeredarchitecture.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
 
-public class OrderDTO  {
+public class OrderDTO  implements Serializable {
     private String orderId;
     private LocalDate orderDate;
     private String customerId;
