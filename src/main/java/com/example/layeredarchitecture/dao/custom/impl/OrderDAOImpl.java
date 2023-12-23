@@ -2,6 +2,7 @@ package com.example.layeredarchitecture.dao.custom.impl;
 
 import com.example.layeredarchitecture.dao.custom.OrderDAO;
 import com.example.layeredarchitecture.dto.OrderDTO;
+import com.example.layeredarchitecture.entity.Order;
 import com.example.layeredarchitecture.util.SQLUtil;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDTO search(String s) throws SQLException, ClassNotFoundException {
+    public Order search(String s) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -28,17 +29,17 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public ArrayList<OrderDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Order> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
-        return SQLUtil.executeUpdate("INSERT INTO `Orders` (oid, date, customerId) VALUES (?,?,?)", dto.getOrderId(), dto.getOrderDate(), dto.getCustomerId());
+    public boolean save(Order entity) throws SQLException, ClassNotFoundException {
+        return SQLUtil.executeUpdate("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)",entity.getOrderId(),Date.valueOf(entity.getOrderDate()),entity.getCustomerId());
     }
 
     @Override
-    public boolean update(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(Order order) throws SQLException, ClassNotFoundException {
         return false;
     }
 
