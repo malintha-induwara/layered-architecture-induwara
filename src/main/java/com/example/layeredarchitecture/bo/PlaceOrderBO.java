@@ -23,15 +23,7 @@ public interface PlaceOrderBO {
 
     ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException;
 
-    boolean existOrder(String orderId) throws SQLException, ClassNotFoundException;
-
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException;
 
-    boolean saveOrderDetail(OrderDetailDTO detail) throws SQLException, ClassNotFoundException;
-
-    boolean updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
-
-    ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException;
-
-    ItemDTO findItem(String code)
+    ItemDTO findItem(String code);
 }

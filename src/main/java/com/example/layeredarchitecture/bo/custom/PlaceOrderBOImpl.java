@@ -58,10 +58,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
         return itemDAO.getAll();
     }
 
-    @Override
-    public boolean existOrder(String orderId) throws SQLException, ClassNotFoundException {
-        return orderDAO.exist(orderId);
-    }
 
     @Override
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
@@ -113,20 +109,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
             return true;
     }
 
-    @Override
-    public boolean saveOrderDetail(OrderDetailDTO detail) throws SQLException, ClassNotFoundException {
-        return orderDetailDAO.saveOrderDetail(detail);
-    }
-
-    @Override
-    public boolean updateItem(ItemDTO item) throws SQLException, ClassNotFoundException {
-        return itemDAO.update(item);
-    }
-
-    @Override
-    public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
-        return itemDAO.search(code);
-    }
 
 
     public ItemDTO findItem(String code) {
