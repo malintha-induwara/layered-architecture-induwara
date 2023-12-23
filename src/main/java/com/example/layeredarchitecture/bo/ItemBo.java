@@ -13,7 +13,7 @@ public interface ItemBo {
 
     public boolean updateItem(ItemDTO dto) throws SQLException, ClassNotFoundException;
 
-    public boolean existItemByCode(String code) throws SQLException, ClassNotFoundException ;
+    public boolean existItem(String code) throws SQLException, ClassNotFoundException ;
 
     public String generateNewItemCode() throws SQLException, ClassNotFoundException;
 }

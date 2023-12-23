@@ -6,7 +6,7 @@ import com.example.layeredarchitecture.model.ItemDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ItemBoImpl implements ItemBo{
+public class ItemBOImpl implements ItemBo{
     @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
         return null;
@@ -28,7 +28,7 @@ public class ItemBoImpl implements ItemBo{
     }
 
     @Override
-    public boolean existItemByCode(String code) throws SQLException, ClassNotFoundException {
+    public boolean existItem(String code) throws SQLException, ClassNotFoundException {
         return false;
     }
 
