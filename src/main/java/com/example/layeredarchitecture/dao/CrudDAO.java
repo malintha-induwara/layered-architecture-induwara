@@ -1,9 +1,5 @@
 package com.example.layeredarchitecture.dao;
 
-import com.example.layeredarchitecture.model.CustomerDTO;
-import com.example.layeredarchitecture.util.SQLUtil;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

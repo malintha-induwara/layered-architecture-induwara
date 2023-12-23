@@ -9,10 +9,10 @@ import com.example.layeredarchitecture.dao.custom.impl.CustomerDAOImpl;
 import com.example.layeredarchitecture.dao.custom.impl.ItemDAOImpl;
 import com.example.layeredarchitecture.dao.custom.impl.OrderDAOImpl;
 import com.example.layeredarchitecture.dao.custom.impl.PlaceOrderDAOImpl;
-import com.example.layeredarchitecture.model.CustomerDTO;
-import com.example.layeredarchitecture.model.ItemDTO;
-import com.example.layeredarchitecture.model.OrderDTO;
-import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.dto.CustomerDTO;
+import com.example.layeredarchitecture.dto.ItemDTO;
+import com.example.layeredarchitecture.dto.OrderDTO;
+import com.example.layeredarchitecture.dto.OrderDetailDTO;
 import com.example.layeredarchitecture.util.TransactionUtil;
 
 import java.sql.SQLException;
