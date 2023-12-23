@@ -132,7 +132,7 @@ public class PlaceOrderFormController {
 //                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
 
-                    ItemDTO item = findItem(newItemCode+"");
+                    ItemDTO item = placeOrderBo.findItem(newItemCode+"");
 
                     txtDescription.setText(item.getDescription());
 
@@ -305,75 +305,18 @@ public class PlaceOrderFormController {
     }
 
     private boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
-        /*Transaction*/
+
         try {
-            boolean isOrderExists = placeOrderBo.existOrder(orderId);
-
-            /*if order id already exists*/
-            if (isOrderExists) {
-                return false;
-            }
-
-            TransactionUtil.autoCommitFalse();
-
-            boolean isOrderSaved = placeOrderBo.saveOrder(new OrderDTO(orderId, orderDate, customerId, null, null));
-
-            if (!isOrderSaved) {
-                TransactionUtil.rollback();
-                return false;
-            }
-
-            for (OrderDetailDTO detail : orderDetails) {
-                boolean isOrderDetailSaved = placeOrderBo.saveOrderDetail(detail);
-
-                if (!isOrderDetailSaved) {
-                    TransactionUtil.rollback();
-                    return false;
-                }
-
-                // Search & Update Item
-                ItemDTO item = findItem(detail.getItemCode());
-
-
-
-
-// Subtract the quantity in the order details from the existing quantity on hand
-                int updatedQtyOnHand = item.getQtyOnHand() - detail.getQty();
-                item.setQtyOnHand(updatedQtyOnHand);
-
-
-
-                boolean isUpdated = placeOrderBo.updateItem(item);
-
-                if (!isUpdated) {
-                    TransactionUtil.rollback();
-                    return false;
-                }
-            }
-
-            TransactionUtil.commit();
-            return true;
-
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
-
-    }
-
-
-    public ItemDTO findItem(String code) {
-        try {
-        return placeOrderBo.searchItem(code);
+            return placeOrderBo.saveOrder(orderId,orderDate,customerId,orderDetails);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to find the Item " + code, e);
+            throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
+
+
+
 
 
 }

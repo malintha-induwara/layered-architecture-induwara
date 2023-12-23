@@ -6,7 +6,9 @@ import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface PlaceOrderBO {
     boolean existCustomer(String s) throws SQLException, ClassNotFoundException;
@@ -23,11 +25,13 @@ public interface PlaceOrderBO {
 
     boolean existOrder(String orderId) throws SQLException, ClassNotFoundException;
 
-    boolean saveOrder(OrderDTO orderDTO) throws SQLException, ClassNotFoundException;
+    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException;
 
     boolean saveOrderDetail(OrderDetailDTO detail) throws SQLException, ClassNotFoundException;
 
     boolean updateItem(ItemDTO item) throws SQLException, ClassNotFoundException;
 
     ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException;
+
+    ItemDTO findItem(String code)
 }

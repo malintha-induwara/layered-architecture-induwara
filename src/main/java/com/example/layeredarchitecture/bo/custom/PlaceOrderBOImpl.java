@@ -13,9 +13,12 @@ import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.model.OrderDetailDTO;
+import com.example.layeredarchitecture.util.TransactionUtil;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
 
@@ -61,8 +64,63 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     }
 
     @Override
-    public boolean saveOrder(OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
-        return orderDAO.save(orderDTO);
+    public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
+        /*Transaction*/
+        try {
+            boolean isOrderExists = orderDAO.exist(orderId);
+
+            /*if order id already exists*/
+            if (isOrderExists) {
+                return false;
+            }
+
+            TransactionUtil.autoCommitFalse();
+
+            boolean isOrderSaved = orderDAO.save(new OrderDTO(orderId, orderDate, customerId, null, null));
+
+            if (!isOrderSaved) {
+                TransactionUtil.rollback();
+                return false;
+            }
+
+            for (OrderDetailDTO detail : orderDetails) {
+                boolean isOrderDetailSaved = orderDetailDAO.saveOrderDetail(detail);
+
+                if (!isOrderDetailSaved) {
+                    TransactionUtil.rollback();
+                    return false;
+                }
+
+                // Search & Update Item
+                ItemDTO item = findItem(detail.getItemCode());
+
+
+
+
+// Subtract the quantity in the order details from the existing quantity on hand
+                int updatedQtyOnHand = item.getQtyOnHand() - detail.getQty();
+                item.setQtyOnHand(updatedQtyOnHand);
+
+
+
+                boolean isUpdated = itemDAO.update(item);
+
+                if (!isUpdated) {
+                    TransactionUtil.rollback();
+                    return false;
+                }
+            }
+
+            TransactionUtil.commit();
+            return true;
+
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 
     @Override
@@ -78,6 +136,18 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     @Override
     public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
         return itemDAO.search(code);
+    }
+
+
+    public ItemDTO findItem(String code) {
+        try {
+            return itemDAO.search(code);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to find the Item " + code, e);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 
