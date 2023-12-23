@@ -1,10 +1,9 @@
-package com.example.layeredarchitecture.bo.custom;
+package com.example.layeredarchitecture.bo.custom.impl;
 
-import com.example.layeredarchitecture.bo.PlaceOrderBO;
-import com.example.layeredarchitecture.dao.CustomerDAO;
-import com.example.layeredarchitecture.dao.ItemDAO;
-import com.example.layeredarchitecture.dao.OrderDAO;
-import com.example.layeredarchitecture.dao.PaceOrderDAO;
+import com.example.layeredarchitecture.dao.custom.CustomerDAO;
+import com.example.layeredarchitecture.dao.custom.ItemDAO;
+import com.example.layeredarchitecture.dao.custom.OrderDAO;
+import com.example.layeredarchitecture.dao.custom.PlaceOrderDAO;
 import com.example.layeredarchitecture.dao.custom.impl.CustomerDAOImpl;
 import com.example.layeredarchitecture.dao.custom.impl.ItemDAOImpl;
 import com.example.layeredarchitecture.dao.custom.impl.OrderDAOImpl;
@@ -25,7 +24,7 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     OrderDAO orderDAO=new OrderDAOImpl();
     CustomerDAO customerDAO = new CustomerDAOImpl();
     ItemDAO itemDAO = new ItemDAOImpl();
-    PaceOrderDAO orderDetailDAO = new PlaceOrderDAOImpl();
+    PlaceOrderDAO orderDetailDAO = new PlaceOrderDAOImpl();
 
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.layeredarchitecture.dao.custom.impl;
 
-import com.example.layeredarchitecture.dao.QueryDAO;
+import com.example.layeredarchitecture.dao.custom.QueryDAO;
 import com.example.layeredarchitecture.model.OrderDTO;
 import com.example.layeredarchitecture.util.SQLUtil;
 

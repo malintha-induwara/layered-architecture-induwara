@@ -1,6 +1,6 @@
-package com.example.layeredarchitecture.bo.custom;
+package com.example.layeredarchitecture.bo.custom.impl;
 
-import com.example.layeredarchitecture.bo.ItemBO;
+import com.example.layeredarchitecture.bo.custom.ItemBO;
 import com.example.layeredarchitecture.model.ItemDTO;
 
 import java.sql.SQLException;

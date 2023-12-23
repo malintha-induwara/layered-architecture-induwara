@@ -1,13 +1,11 @@
 package com.example.layeredarchitecture.dao.custom.impl;
 
-import com.example.layeredarchitecture.dao.CustomerDAO;
-import com.example.layeredarchitecture.db.DBConnection;
+import com.example.layeredarchitecture.dao.custom.CustomerDAO;
 import com.example.layeredarchitecture.model.CustomerDTO;
 import com.example.layeredarchitecture.util.SQLUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
