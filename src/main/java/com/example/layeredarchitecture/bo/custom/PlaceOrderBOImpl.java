@@ -66,7 +66,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
     @Override
     public boolean saveOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) throws SQLException, ClassNotFoundException {
         /*Transaction*/
-        try {
             boolean isOrderExists = orderDAO.exist(orderId);
 
             /*if order id already exists*/
@@ -102,7 +101,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
                 item.setQtyOnHand(updatedQtyOnHand);
 
 
-
                 boolean isUpdated = itemDAO.update(item);
 
                 if (!isUpdated) {
@@ -113,14 +111,6 @@ public class PlaceOrderBOImpl implements PlaceOrderBO {
 
             TransactionUtil.commit();
             return true;
-
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return false;
-
     }
 
     @Override
