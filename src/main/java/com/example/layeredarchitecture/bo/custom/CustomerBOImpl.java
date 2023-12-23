@@ -1,6 +1,6 @@
 package com.example.layeredarchitecture.bo.custom;
 
-import com.example.layeredarchitecture.bo.CustomerBo;
+import com.example.layeredarchitecture.bo.CustomerBO;
 import com.example.layeredarchitecture.dao.CustomerDAO;
 import com.example.layeredarchitecture.dao.custom.impl.CustomerDAOImpl;
 import com.example.layeredarchitecture.model.CustomerDTO;
@@ -8,7 +8,7 @@ import com.example.layeredarchitecture.model.CustomerDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CustomerBOImpl implements CustomerBo {
+public class CustomerBOImpl implements CustomerBO {
 
 
         CustomerDAO customerDAO = new CustomerDAOImpl();

@@ -1,6 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
-import com.example.layeredarchitecture.bo.ItemBo;
+import com.example.layeredarchitecture.bo.ItemBO;
 import com.example.layeredarchitecture.bo.custom.ItemBOImpl;
 import com.example.layeredarchitecture.model.ItemDTO;
 import com.example.layeredarchitecture.view.tdm.ItemTM;
@@ -38,7 +38,7 @@ public class ManageItemsFormController {
     public JFXButton btnAddNewItem;
 
 
-    ItemBo itemBo = new ItemBOImpl();
+    ItemBO itemBo = new ItemBOImpl();
 
 
 
